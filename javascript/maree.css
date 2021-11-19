@@ -1,0 +1,56 @@
+body{
+position:relative;
+width:600px;
+margin:auto;
+}
+.rouge{
+background-color:red;
+}
+.brouge{
+background-color:red;
+border-radius: 2em;
+}
+.jaune{
+background-color:yellow;
+}
+.bjaune{
+background-color:yellow;
+border-radius: 2em;
+}
+.magenta{
+background-color:magenta;
+}
+.bmagenta{
+background-color:magenta;
+border-radius: 2em;
+}
+.cyan{
+background-color:cyan;
+}
+.bcyan{
+background-color:cyan;
+border-radius: 2em;
+}
+.olive{
+background-color:darkolivegreen;
+}
+.bolive{
+background-color:darkolivegreen;
+border-radius: 2em;
+}
+.marine{
+background-color:darkblue;
+}
+.bmarine{
+color:#FFFFFF;
+background-color:darkblue;
+border-radius: 2em;
+}
+#bout{
+float:right;
+}
+table{
+margin-left:0px;
+margin-top:50px;
+width:200px;
+}

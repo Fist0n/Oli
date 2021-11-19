@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<title>Titre de l'exercice</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" media="screen" href="maree.css"/>
+		<script type="text/javascript">
+		const N=14;	
+		let tab=new Array(N);
+		let cpt=0;
+		let span=new Array(1);
+
+		function testgagne(tab,n,cpt,span){
+			
+			cpt++;
+			span[0].textContent=cpt+" / 25";
+
+			let gagne=true;
+			let i=0;
+			let j=0;
+			let coul=tab[0][0][0];
+			let col;
+			while (i<n && gagne){
+				j=0;
+				while (j<n && gagne){
+					if (coul!=tab[i][j][0]){
+						gagne=false;
+					}
+					j++;
+				}
+				i++;
+			}
+			
+			if(cpt==25 && !gagne){
+
+				col=document.getElementsByName("couleur"); 
+				for(i=0;i<col.length;i++) {
+  					col[i].disabled=true;
+				}
+				span[0].textContent="Perdu"; c=0;
+			}else{
+				if(gagne){
+					col=document.getElementsByName("couleur"); 
+					for(i=0;i<col.length;i++) {
+  						col[i].disabled=true;
+					}
+					span[0].textContent="Gagné"; c=0;
+				}
+			}
+			return cpt;
+		}
+
+		function demarrage(tab,n,span){
+			let col;
+			let i=0;
+			if(tab[0]===undefined){
+				generate_table(tab,n,span);
+			}
+			tirage(tab,n);
+			span[0].textContent="0 / 25";
+			col=document.getElementsByName("couleur"); 
+				for(i=0;i<col.length;i++) {
+  					col[i].disabled=false;
+				}
+			return 0;	
+		}
+
+		function generate_table(tab,n,span) {
+
+			let cpthtml = document.getElementById('compt');
+			span[0]=cpthtml;
+			span[0].textContent="0 / 25";  
+			let i=0;
+			let j=0;
+	  		let body = document.getElementsByTagName("body")[0];
+	  		let tbl = document.createElement("table");
+	  		let tblBody = document.createElement("tbody");
+	  		let clas="";
+	  		let cell;
+	  		let cellText;
+	  		let row;
+
+	  		for (i = 0; i < n; i++) {
+	    		
+	    		row = document.createElement("tr");
+	    		tab[i]=new Array(N);
+
+	    		for (j = 0; j < n; j++) {
+		      		
+		      		cell = document.createElement("td");
+		      		cell.className=clas;
+		      		tab[i][j]=[clas,cell];
+		      		cellText = document.createTextNode("\u00A0\u00A0\u00A0\u00A0\u00A0");
+		      		cell.appendChild(cellText);
+		      		row.appendChild(cell);
+	    		}
+	    		tblBody.appendChild(row);
+	  		}
+
+	  		tbl.appendChild(tblBody);
+	  		body.appendChild(tbl);
+	  		tbl.setAttribute("border", "2");
+	  		
+			}
+
+			function tirage(tab,n){
+				let nb;
+				let clas;
+				let i=0;
+				let j=0;
+				for (i = 0; i < n; i++) {
+	    
+	    		
+		    		for (j = 0; j < n; j++) {
+		      		
+		      		nb=Math.floor(Math.random() * 6);
+		      		
+		      		switch (nb) {
+		  				case 0: clas="rouge";
+							break;
+						case 1: clas="cyan";
+							break;
+						case 2: clas="magenta";
+							break;
+						case 3: clas="marine";
+							break;
+						case 4: clas="olive";
+							break;
+						case 5: clas="jaune";
+							break;
+		  				default:
+		    				clas="";
+						}
+		  
+		      		tab[i][j][0]=clas;
+		      		tab[i][j][1].className=clas;
+		      		
+		    		}
+	  			}
+			}
+			 
+			 function diffuse(tab, i, j, coul, ancien, n) {
+			 	
+				  if (!(i>=n || j>=n 	|| i<0 || j<0) && !(i==0 && j==0 && coul == ancien)){
+					  if (tab[i][j][0] == ancien) { 
+				 		  tab[i][j][0] = coul; tab[i][j][1].className=coul;
+						  diffuse(tab, i, j+1, coul,ancien,n); 
+						  diffuse(tab, i+1, j, coul,ancien,n); 
+						  diffuse(tab, i-1, j, coul,ancien,n); 
+						  diffuse(tab, i, j-1, coul,ancien,n); 
+				 	  } 
+				} 	  
+				 
+			 }
+		
+		</script>
+	</head>
+	<body>
+
+		<div id="bout">
+			<h3>La marée des couleurs</h3><p><span id="compt">0 / 25<span></p>
+			<p><input class="brouge" type="button" name="couleur" value="rouge" disabled onclick="diffuse(tab,0,0,'rouge',tab[0][0][0],N);cpt=testgagne(tab,N,cpt,span);"/></p>
+			<p><input class="bjaune" type="button" name="couleur" value="jaune" disabled onclick="diffuse(tab,0,0,'jaune',tab[0][0][0],N);cpt=testgagne(tab,N,cpt,span);"/></p>
+			<p><input class="bcyan" type="button" name="couleur" value="cyan" disabled onclick="diffuse(tab,0,0,'cyan',tab[0][0][0],N);cpt=testgagne(tab,N,cpt,span);"/></p>
+			<p><input class="bmagenta" type="button" name="couleur" value="magenta" disabled onclick="diffuse(tab,0,0,'magenta',tab[0][0][0],N);cpt=testgagne(tab,N,cpt,span);"/></p>
+			<p><input class="bolive" type="button" name="couleur" value="olive" disabled onclick="diffuse(tab,0,0,'olive',tab[0][0][0],N);cpt=testgagne(tab,N,cpt,span);"/></p>
+			<p><input class="marine" type="button" name="couleur" value="marine" disabled onclick="diffuse(tab,0,0,'marine',tab[0][0][0],N);cpt=testgagne(tab,N,cpt,span);"/></p>
+			<input type="button" name="nouv" value="Nouvelle partie" onclick="cpt=demarrage(tab,N,span);"/>
+		</div>
+	</body>
+</html>
